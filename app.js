@@ -265,8 +265,6 @@ app.delete('/user/:username',(req,res)=>{
     }
 })
 
-
-
 //All OTHER PAGES
 app.get('*',(req,res)=>{
     res.send("Oh hooooo....404")
