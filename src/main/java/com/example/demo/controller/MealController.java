@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,56 +11,53 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.modal.Meal;
+import com.example.demo.model.Meal;
+import com.example.demo.repository.MealRepository;
 
 @RestController
 public class MealController {
 
-	List<Meal> arrayListMeal = new ArrayList<Meal>();
-	AtomicLong atomicLong = new AtomicLong();
-
+	@Autowired
+	private MealRepository mealRepo;
+	
 	@PostMapping("/meal")
-	Meal postMeal(@RequestBody Meal data) {
-		data.setMealId(atomicLong.incrementAndGet());
-		arrayListMeal.add(data);
-		return data;
+	public String postMeal(@RequestBody Meal data) {
+		System.out.println(data.isDayLimit());
+		mealRepo.save(data);
+		return "ADDED MEAL WITH ID : "+data.getMealId();
 	}
 
 	@GetMapping("/meal/all")
-	List<Meal> getAllMeal() {
-		return arrayListMeal;
+	public List<Meal> getAllMeal() {
+		return mealRepo.findAll();
 	}
 
 	@GetMapping("/meal/{mealId}")
-	Meal getOneMeal(@PathVariable("mealId") Long id) {
+	public Optional<Meal> getOneMeal(@PathVariable("mealId") Long id) {
 
-		return arrayListMeal.stream().filter(a -> a.getMealId() == id).findFirst().get();
+		 return mealRepo.findById(id);
 
 	}
 
 	@DeleteMapping("/meal/{mealId}")
-	Meal deleteOneMeal(@PathVariable("mealId") Long id) {
+	public String deleteOneMeal(@PathVariable("mealId") Long id) {
 
-		Meal toBeDeleated = arrayListMeal.stream().filter(a -> a.getMealId() == id).findFirst().get();
-
-		arrayListMeal.remove(toBeDeleated);
-
-		return toBeDeleated;
+		mealRepo.deleteById(id); 
+		
+		return "MEAL With Id : "+id+" DELETED.";
 
 	}
 
 	@PutMapping("/meal/{mealId}")
-	Meal oneMealUpdate(@PathVariable("mealId") Long id, @RequestBody Meal newData) {
+	public String  oneMealUpdate(@PathVariable("mealId") Long id, @RequestBody Meal newData) {
 
-		Meal toBeDeleated = arrayListMeal.stream().filter(a -> a.getMealId() == id).findFirst().get();
-
-		arrayListMeal.remove(toBeDeleated);
+		mealRepo.deleteById(id); 
 		
 		newData.setMealId(id);
 		
-		arrayListMeal.add(newData);
+		mealRepo.save(newData);
 		
-		return newData;
+		return "MEAL UPDATED";
 	}
 
 }

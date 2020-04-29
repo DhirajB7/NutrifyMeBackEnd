@@ -37,23 +37,10 @@
 			</exclusions>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
 		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>json-path</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>xml-path</artifactId>
-			<version>4.0.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 
 	</dependencies>

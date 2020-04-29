@@ -1,15 +1,29 @@
-package com.example.demo.modal;
+package com.example.demo.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Meal")
 public class Meal {
 
+	@Id
 	Long mealId;
+	
 	String foodName;
 	String foodDescription;
 	int calorie;
 	String date;
 	String time;
-	boolean isInDayLimits;
+	boolean dayLimit;
 	
+	
+	
+	public boolean isDayLimit() {
+		return dayLimit;
+	}
+	public void setDayLimit(boolean dayLimit) {
+		this.dayLimit = dayLimit;
+	}
 	public Long getMealId() {
 		return mealId;
 	}
@@ -45,12 +59,6 @@ public class Meal {
 	}
 	public void setTime(String time) {
 		this.time = time;
-	}
-	public boolean isInDayLimits() {
-		return isInDayLimits;
-	}
-	public void setInDayLimits(boolean isInDayLimits) {
-		this.isInDayLimits = isInDayLimits;
 	}
 	
 	

@@ -1,10 +1,14 @@
-package com.example.demo.modal;
+package com.example.demo.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "User")
 public class User {
 	
-	Long id;
+	@Id
 	String userName;
+	
 	String firstName;
 	String lastName;
 	String email;
@@ -13,12 +17,7 @@ public class User {
 	int calories_per_day;
 	boolean userSattus;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 	public String getUserName() {
 		return userName;
 	}

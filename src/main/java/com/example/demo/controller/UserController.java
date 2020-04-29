@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,56 +11,53 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.modal.User;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 
 @RestController
 public class UserController {
 
-	List<User> arrayListUser = new ArrayList<User>();
-	AtomicLong atomicLongUser = new AtomicLong();
-
+	@Autowired
+	private UserRepository userRepo;
+	
 	@PostMapping("/user")
-	User postUser(@RequestBody User data) {
-		data.setId(atomicLongUser.incrementAndGet());
-		arrayListUser.add(data);
-		return data;
+	public String postUser(@RequestBody User data) {
+		System.out.println(data.isUserSattus());
+		userRepo.save(data);
+		return "USER ADDED WITH USERNAME : "+data.getUserName();
 	}
 
 	@GetMapping("/user/all")
-	List<User> getAllUser() {
-		return arrayListUser;
+	public List<User> getAllUser() {
+		return userRepo.findAll();
 	}
 
 	@GetMapping("/user/{userName}")
-	User getOneUser(@PathVariable("userName") String un) {
-
-		return arrayListUser.stream().filter(a -> a.getUserName().equalsIgnoreCase(un)).findFirst().get();
-
+	public Optional<User> getOneUser(@PathVariable("userName") String un) {
+		return userRepo.findById(un);
 	}
 
 	@DeleteMapping("/user/{userName}")
-	User deleteOneUser(@PathVariable("userName") String un) {
+	public String deleteOneUser(@PathVariable("userName") String un) {
 
-		User toBeDeleated = arrayListUser.stream().filter(a -> a.getUserName().equalsIgnoreCase(un)).findFirst().get();
+		userRepo.deleteById(un);
 
-		arrayListUser.remove(toBeDeleated);
-
-		return toBeDeleated;
+		return "USER WITH USERNAME "+un+" DELETED";
 
 	}
 
 	@PutMapping("/user/{userName}")
-	User oneUserUpdate(@PathVariable("userName") String un, @RequestBody User newData) {
+	public String oneUserUpdate(@PathVariable("userName") String un, @RequestBody User newData) {
 
-		User toBeDeleated = arrayListUser.stream().filter(a -> a.getUserName().equalsIgnoreCase(un)).findFirst().get();
-
-		arrayListUser.remove(toBeDeleated);
+		User toBeDeleated = userRepo.findAll().stream().filter(a->a.getUserName().equalsIgnoreCase(un)).findFirst().get();
 		
-		newData.setId(toBeDeleated.getId());
+		userRepo.deleteById(un);
 		
-		arrayListUser.add(newData);
+		newData.setUserName(toBeDeleated.getUserName());
 		
-		return newData;
+		userRepo.save(newData);
+		
+		return "USER UPDATED";
 	}
 
 	
