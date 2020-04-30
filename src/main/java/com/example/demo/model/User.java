@@ -14,9 +14,24 @@ public class User {
 	String email;
 	String password;
 	String phone;
-	int calories_per_day;
-	boolean userSattus;
+	double caloriesPerDay;
+	boolean userStatus;
 	
+	public double getCaloriesPerDay() {
+		return caloriesPerDay;
+	}
+	
+	public void setCaloriesPerDay(double caloriesPerDay) {
+		this.caloriesPerDay = caloriesPerDay;
+	}
+	
+	public boolean isUserStatus() {
+		return userStatus;
+	}
+	
+	public void setUserStatus(boolean userStatus) {
+		this.userStatus = userStatus;
+	}
 	
 	public String getUserName() {
 		return userName;
@@ -54,19 +69,4 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getCalories_per_day() {
-		return calories_per_day;
-	}
-	public void setCalories_per_day(int calories_per_day) {
-		this.calories_per_day = calories_per_day;
-	}
-	public boolean isUserSattus() {
-		return userSattus;
-	}
-	public void setUserSattus(boolean userSattus) {
-		this.userSattus = userSattus;
-	}
-	
-	
-
 }

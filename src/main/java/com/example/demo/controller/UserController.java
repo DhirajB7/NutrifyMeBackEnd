@@ -9,36 +9,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
 @RestController
+@RequestMapping(value = "/user")
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepo;
 	
-	@PostMapping("/user")
+	@PostMapping("")
 	public String postUser(@RequestBody User data) {
-		System.out.println(data.isUserSattus());
 		userRepo.save(data);
 		return "USER ADDED WITH USERNAME : "+data.getUserName();
 	}
 
-	@GetMapping("/user/all")
+	@GetMapping("/all")
 	public List<User> getAllUser() {
 		return userRepo.findAll();
 	}
 
-	@GetMapping("/user/{userName}")
-	public Optional<User> getOneUser(@PathVariable("userName") String un) {
+	@GetMapping("/{un}")
+	public Optional<User> getOneUser(@PathVariable String un) {
 		return userRepo.findById(un);
 	}
 
-	@DeleteMapping("/user/{userName}")
-	public String deleteOneUser(@PathVariable("userName") String un) {
+	@DeleteMapping("/{un}")
+	public String deleteOneUser(@PathVariable String un) {
 
 		userRepo.deleteById(un);
 
@@ -46,8 +47,8 @@ public class UserController {
 
 	}
 
-	@PutMapping("/user/{userName}")
-	public String oneUserUpdate(@PathVariable("userName") String un, @RequestBody User newData) {
+	@PutMapping("/{un}")
+	public String oneUserUpdate(@PathVariable String un, @RequestBody User newData) {
 
 		User toBeDeleated = userRepo.findAll().stream().filter(a->a.getUserName().equalsIgnoreCase(un)).findFirst().get();
 		

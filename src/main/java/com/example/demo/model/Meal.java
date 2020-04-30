@@ -3,6 +3,8 @@ package com.example.demo.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import utils.DateTimeRelatedOperations;
+
 @Document(collection = "Meal")
 public class Meal {
 
@@ -11,19 +13,11 @@ public class Meal {
 	
 	String foodName;
 	String foodDescription;
-	int calorie;
+	double calorie;
 	String date;
 	String time;
-	boolean dayLimit;
 	
 	
-	
-	public boolean isDayLimit() {
-		return dayLimit;
-	}
-	public void setDayLimit(boolean dayLimit) {
-		this.dayLimit = dayLimit;
-	}
 	public Long getMealId() {
 		return mealId;
 	}
@@ -42,23 +36,23 @@ public class Meal {
 	public void setFoodDescription(String foodDescription) {
 		this.foodDescription = foodDescription;
 	}
-	public int getCalorie() {
+	public double getCalorie() {
 		return calorie;
 	}
-	public void setCalorie(int calorie) {
+	public void setCalorie(double calorie) {
 		this.calorie = calorie;
 	}
 	public String getDate() {
 		return date;
 	}
 	public void setDate(String date) {
-		this.date = date;
+		this.date = new DateTimeRelatedOperations().getDateAndTime().split(" ")[0];
 	}
 	public String getTime() {
 		return time;
 	}
 	public void setTime(String time) {
-		this.time = time;
+		this.time = new DateTimeRelatedOperations().getDateAndTime().split(" ")[1];
 	}
 	
 	
