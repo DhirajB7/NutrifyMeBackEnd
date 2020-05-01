@@ -25,7 +25,7 @@ public class UserController {
 	@PostMapping("")
 	public String postUser(@RequestBody User data) {
 		userRepo.save(data);
-		return "USER ADDED WITH USERNAME : "+data.getUserName();
+		return "USER ADDED WITH USERNAME : "+data.getUsername();
 	}
 
 	@GetMapping("/all")
@@ -50,11 +50,11 @@ public class UserController {
 	@PutMapping("/{un}")
 	public String oneUserUpdate(@PathVariable String un, @RequestBody User newData) {
 
-		User toBeDeleated = userRepo.findAll().stream().filter(a->a.getUserName().equalsIgnoreCase(un)).findFirst().get();
+		User toBeDeleated = userRepo.findAll().stream().filter(a->a.getUsername().equalsIgnoreCase(un)).findFirst().get();
 		
 		userRepo.deleteById(un);
 		
-		newData.setUserName(toBeDeleated.getUserName());
+		newData.setUsername(toBeDeleated.getUsername());
 		
 		userRepo.save(newData);
 		

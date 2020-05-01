@@ -7,49 +7,41 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 	
 	@Id
-	String userName;
+	String userId;
 	
-	String firstName;
-	String lastName;
+	
+	String username;
+	String firstname;
+	String lastname;
 	String email;
 	String password;
 	String phone;
 	double caloriesPerDay;
 	boolean userStatus;
 	
-	public double getCaloriesPerDay() {
-		return caloriesPerDay;
+	public String getUserId() {
+		return userId;
 	}
-	
-	public void setCaloriesPerDay(double caloriesPerDay) {
-		this.caloriesPerDay = caloriesPerDay;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	
-	public boolean isUserStatus() {
-		return userStatus;
+	public String getUsername() {
+		return username;
 	}
-	
-	public void setUserStatus(boolean userStatus) {
-		this.userStatus = userStatus;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	
-	public String getUserName() {
-		return userName;
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getLastname() {
+		return lastname;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	public String getEmail() {
 		return email;
@@ -69,4 +61,18 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public double getCaloriesPerDay() {
+		return caloriesPerDay;
+	}
+	public void setCaloriesPerDay(double caloriesPerDay) {
+		this.caloriesPerDay = caloriesPerDay;
+	}
+	public boolean isUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(boolean userStatus) {
+		this.userStatus = userStatus;
+	}
+	
+	
 }
