@@ -7,10 +7,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.demo.repository.UserRepository;
 import com.example.demo.services.UserPrincipalDetailsService;
 
 
@@ -20,9 +22,13 @@ import com.example.demo.services.UserPrincipalDetailsService;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private UserPrincipalDetailsService userPrincipalDetailsService;
+	private UserRepository userRepository;
 
-	public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService) {
+	
+	public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,
+			UserRepository userRepository) {
 		this.userPrincipalDetailsService = userPrincipalDetailsService;
+		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -35,12 +41,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-		.csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/**")
-		.authenticated()
+		.csrf().disable() //
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  
 		.and()
-		.httpBasic();
+		.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+		.addFilter(new JWTAuthorizationFilter(authenticationManager(), this.userRepository))
+		.authorizeRequests()
+		.antMatchers("/login").permitAll()
+		.antMatchers("/meal/**").hasRole("USER")
+		.antMatchers("/user/**").hasRole("ADMIN");
 	}
 
 	@Bean

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.model.User;
@@ -21,6 +22,10 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
+		this.user.getRoleList().forEach(role->{
+			GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+role); //ROLE_USER or ROLE_ADMIN is the must use formate
+			authorities.add(authority);
+		});
 		return authorities;
 	}
 

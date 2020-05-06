@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +20,7 @@ public class User {
 	String email;
 	String password;
 	String phone;
+	String role;
 	double caloriesPerDay;
 	boolean userStatus;
 	
@@ -61,6 +66,12 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public double getCaloriesPerDay() {
 		return caloriesPerDay;
 	}
@@ -74,5 +85,12 @@ public class User {
 		this.userStatus = userStatus;
 	}
 	
+	public List<String> getRoleList(){
+        if(this.role.length() > 0){
+            return Arrays.asList(this.role.split(","));
+        }
+        return new ArrayList<>();
+    }
+
 	
 }
