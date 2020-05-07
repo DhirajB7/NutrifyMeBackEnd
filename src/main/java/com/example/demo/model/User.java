@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -55,10 +56,10 @@ public class User {
 		this.email = email;
 	}
 	public String getPassword() {
-		return password;
+		return new String(Base64.getDecoder().decode(password));
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Base64.getEncoder().encodeToString(password.getBytes());
 	}
 	public String getPhone() {
 		return phone;
