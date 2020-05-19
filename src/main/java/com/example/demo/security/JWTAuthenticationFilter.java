@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -76,7 +77,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(JWTProperties.HEADER_STRING, JWTProperties.TOKEN_PREFIX +  token);
 
         //Add response to response Body
-        response.getWriter().write(JWTProperties.TOKEN_PREFIX +  token);
+		JSONObject jsonObject = new JSONObject();
+
+		jsonObject.put(JWTProperties.HEADER_STRING.toLowerCase(),JWTProperties.TOKEN_PREFIX +  token);
+		jsonObject.put("role",principal.getRole());
+
+       response.getWriter().write(jsonObject.toString());
+
 
 	}
 

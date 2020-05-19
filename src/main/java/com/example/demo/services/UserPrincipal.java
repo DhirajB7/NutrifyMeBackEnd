@@ -16,6 +16,7 @@ public class UserPrincipal implements UserDetails{
 	private User user;
 
 	public UserPrincipal(User user) {
+
 		this.user = user;
 	}
 
@@ -31,15 +32,16 @@ public class UserPrincipal implements UserDetails{
 
 	@Override
 	public String getUsername() {
+
 		return this.user.getUsername();
 	}
 	
 	@Override
 	public String getPassword() {
+
 		return this.user.getPassword();
 	}
 
-	
 
 	@Override
 	public boolean isAccountNonExpired() {
@@ -59,6 +61,10 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public String getRole(){
+		return this.user.getRole();
 	}
 
 }
