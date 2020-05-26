@@ -20,7 +20,7 @@ import utils.GetCal;
 
 @RestController
 @RequestMapping(value = "/meal")
-@CrossOrigin
+@CrossOrigin()
 public class MealController {
 
 	@Autowired

@@ -18,7 +18,7 @@ import com.example.demo.repository.UserRepository;
 
 @RestController
 @RequestMapping(value = "/user")
-@CrossOrigin
+@CrossOrigin()
 public class UserController {
 
 	@Autowired
@@ -49,20 +49,46 @@ public class UserController {
 
 	}
 
+	/**
+	 * NOT USING BETTER METHOED ARE BELOW
+	 * @param un
+	 * @param newData
+	 * @return
+	 */
 	@PutMapping("/{un}")
 	public String oneUserUpdate(@PathVariable String un, @RequestBody User newData) {
 
-		User toBeDeleated = userRepo.findAll().stream().filter(a->a.getUsername().equalsIgnoreCase(un)).findFirst().get();
-		
-		userRepo.deleteById(un);
-		
-		newData.setUsername(toBeDeleated.getUsername());
-		
-		userRepo.save(newData);
-		
-		return "USER UPDATED";
+        User toBeDeleated = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
+
+        userRepo.deleteById(un);
+
+        newData.setUsername(toBeDeleated.getUsername());
+
+        userRepo.save(newData);
+
+        return "USER UPDATED";
+    }
+
+    @PutMapping("/{un}/status/{data}")
+    public String oneUserUpdateStatus(@PathVariable String un, @PathVariable String data) {
+
+          User user = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
+          user.setUserStatus(Boolean.parseBoolean(data));
+          userRepo.save(user);
+
+        return "USER STATUS UPDATED";
+    }
+
+	@PutMapping("/{un}/role/{data}")
+	public String oneUserUpdateRole(@PathVariable String un, @PathVariable String data) {
+
+		User user = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
+		user.setRole(data.toUpperCase());
+		userRepo.save(user);
+
+		return "USER ROLE UPDATED";
 	}
 
-	
+
 
 }

@@ -1,18 +1,15 @@
 package com.example.demo.security;
 
 
-
 import com.auth0.jwt.JWT;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.UserPrincipal;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,8 +29,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         // Read the Authorization header, where the JWT token should be
         String header = request.getHeader(JWTProperties.HEADER_STRING);
+
 
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith(JWTProperties.TOKEN_PREFIX)) {
@@ -51,7 +50,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private Authentication getUsernamePasswordAuthentication(HttpServletRequest request) {
         String token = request.getHeader(JWTProperties.HEADER_STRING)
-                .replace(JWTProperties.TOKEN_PREFIX,"");
+                .replace(JWTProperties.TOKEN_PREFIX, "");
 
         if (token != null) {
             // parse the token and validate it
