@@ -16,55 +16,55 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.services.UserPrincipalDetailsService;
 
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private UserPrincipalDetailsService userPrincipalDetailsService;
-	private UserRepository userRepository;
+    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private UserRepository userRepository;
 
-	
-	public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,
-			UserRepository userRepository) {
-		this.userPrincipalDetailsService = userPrincipalDetailsService;
-		this.userRepository = userRepository;
-	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,
+                                 UserRepository userRepository) {
+        this.userPrincipalDetailsService = userPrincipalDetailsService;
+        this.userRepository = userRepository;
+    }
 
-		auth.authenticationProvider(authenticationProvider());
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
 
-		http
-        .csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  
-		.and()
-		.addFilter(new JWTAuthenticationFilter(authenticationManager()))
-		.addFilter(new JWTAuthorizationFilter(authenticationManager(), this.userRepository))
-		.authorizeRequests()
-		.antMatchers("/login").permitAll()
-		.antMatchers("/user").permitAll()
-		.antMatchers("/meal/**").hasAnyRole("USER","ADMIN")
-		.antMatchers("/user/**").hasRole("ADMIN");
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-		daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
-		return daoAuthenticationProvider;
-	}
+        http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), this.userRepository))
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/user").permitAll()
+                .antMatchers("/user/check/**").permitAll()
+                .antMatchers("/meal/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/**").hasRole("ADMIN");
+    }
 
-	//should change to password encoder passEncoder() error in ByteCryptor
-	@Bean
-	public NoOpPasswordEncoder  passwordEncoder() {
-		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-	}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
+        return daoAuthenticationProvider;
+    }
+
+    //should change to password encoder passEncoder() error in ByteCryptor
+    @Bean
+    public NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
 
 }

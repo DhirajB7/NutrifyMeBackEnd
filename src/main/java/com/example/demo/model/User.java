@@ -30,7 +30,7 @@ public class User {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = userId.toLowerCase();
     }
 
     public String getUsername() {
@@ -38,7 +38,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
     }
 
     public String getFirstname() {

@@ -78,6 +78,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		jsonObject.put(JWTProperties.HEADER_STRING.toLowerCase(),JWTProperties.TOKEN_PREFIX +  token);
 		jsonObject.put("role",principal.getRole());
+		jsonObject.put("status",principal.getStatus());
 
        response.getWriter().write(jsonObject.toString());
 

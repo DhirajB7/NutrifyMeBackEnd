@@ -21,6 +21,7 @@ import utils.GetCal;
 @RestController
 @RequestMapping(value = "/meal")
 @CrossOrigin()
+
 public class MealController {
 
 	@Autowired
@@ -32,7 +33,7 @@ public class MealController {
 		if(!mealRepo.findAll().stream().anyMatch(a->a.toString().equalsIgnoreCase(data.getFoodName()))) {
 			data.setCalorie(new GetCal().getCalByExternalCall(data.getFoodName()));
 		}
-		
+
 		mealRepo.save(data);
 		
 		return "ADDED MEAL WITH ID : "+data.getMealId();

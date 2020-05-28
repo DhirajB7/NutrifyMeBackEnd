@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,13 +29,25 @@ public class UserController {
 	
 	@PostMapping("")
 	public String postUser(@RequestBody User data) {
-		userRepo.save(data);
-		return "USER ADDED WITH USERNAME : "+data.getUsername();
+		boolean flag = userRepo.findAll().stream().map(a->a.getUsername()).collect(Collectors.toList())
+				.contains(data.getUsername().toLowerCase());
+		if(!flag){
+			userRepo.save(data);
+			return "USER ADDED WITH USERNAME : "+data.getUsername();
+		}else{
+			return "USER ALREADY IN DB";
+		}
+
 	}
 
 	@GetMapping("/all")
 	public List<User> getAllUser() {
 		return userRepo.findAll();
+	}
+
+	@GetMapping("/check/{un}")
+	public Boolean getAllUsernames(@PathVariable String un) {
+		return userRepo.findAll().stream().map(User::getUsername).collect(Collectors.toList()).contains(un);
 	}
 
 	@GetMapping("/{un}")
@@ -43,7 +58,7 @@ public class UserController {
 	@DeleteMapping("/{un}")
 	public String deleteOneUser(@PathVariable String un) {
 
-		userRepo.deleteById(un);
+		userRepo.delete(userRepo.findByUsername(un));
 
 		return "USER WITH USERNAME "+un+" DELETED";
 
@@ -51,11 +66,12 @@ public class UserController {
 
 	/**
 	 * NOT USING BETTER METHOED ARE BELOW
+	 * HENCE COMMITING FOR NOW
 	 * @param un
 	 * @param newData
 	 * @return
 	 */
-	@PutMapping("/{un}")
+	/*@PutMapping("/{un}")
 	public String oneUserUpdate(@PathVariable String un, @RequestBody User newData) {
 
         User toBeDeleated = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
@@ -67,12 +83,12 @@ public class UserController {
         userRepo.save(newData);
 
         return "USER UPDATED";
-    }
+    }*/
 
     @PutMapping("/{un}/status/{data}")
     public String oneUserUpdateStatus(@PathVariable String un, @PathVariable String data) {
 
-          User user = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
+          User user = userRepo.findByUsername(un);
           user.setUserStatus(Boolean.parseBoolean(data));
           userRepo.save(user);
 
@@ -82,7 +98,7 @@ public class UserController {
 	@PutMapping("/{un}/role/{data}")
 	public String oneUserUpdateRole(@PathVariable String un, @PathVariable String data) {
 
-		User user = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
+		User user = userRepo.findByUsername(un);
 		user.setRole(data.toUpperCase());
 		userRepo.save(user);
 

@@ -35,7 +35,7 @@ public class UserPrincipal implements UserDetails{
 
 		return this.user.getUsername();
 	}
-	
+
 	@Override
 	public String getPassword() {
 
@@ -65,6 +65,10 @@ public class UserPrincipal implements UserDetails{
 
 	public String getRole(){
 		return this.user.getRole();
+	}
+
+	public boolean getStatus(){
+		return this.user.isUserStatus();
 	}
 
 }
