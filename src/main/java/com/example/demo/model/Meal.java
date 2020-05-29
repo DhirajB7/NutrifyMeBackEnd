@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.example.demo.repository.MealRepository;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import utils.DateTimeRelatedOperations;
@@ -11,29 +10,21 @@ public class Meal {
 
 
     @Id
-    Long mealId;
-
     String foodName;
     String foodDescription;
     double calorie;
     String date;
     String time;
+    String addedByUserName;
 
 
-    public Long getMealId() {
-        return mealId;
-    }
-
-    public void setMealId(Long mealId) {
-        this.mealId = mealId;
-    }
 
     public String getFoodName() {
         return foodName;
     }
 
     public void setFoodName(String foodName) {
-        this.foodName = foodName;
+        this.foodName = foodName.toLowerCase();
     }
 
     public String getFoodDescription() {
@@ -68,5 +59,11 @@ public class Meal {
         this.time = new DateTimeRelatedOperations().getDateAndTime().split(" ")[1];
     }
 
+    public String getAddedByUserName() {
+        return addedByUserName;
+    }
 
+    public void setAddedByUserName(String addedByUserName) {
+        this.addedByUserName = addedByUserName;
+    }
 }

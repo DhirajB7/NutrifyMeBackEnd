@@ -29,8 +29,7 @@ public class UserController {
 	
 	@PostMapping("")
 	public String postUser(@RequestBody User data) {
-		boolean flag = userRepo.findAll().stream().map(a->a.getUsername()).collect(Collectors.toList())
-				.contains(data.getUsername().toLowerCase());
+		boolean flag = userRepo.findAll().stream().anyMatch(a->a.getUsername().equalsIgnoreCase(data.getUsername()));
 		if(!flag){
 			userRepo.save(data);
 			return "USER ADDED WITH USERNAME : "+data.getUsername();
@@ -68,7 +67,7 @@ public class UserController {
 	 * NOT USING BETTER METHOED ARE BELOW
 	 * HENCE COMMITING FOR NOW
 	 * @param un
-	 * @param newData
+	 * @param
 	 * @return
 	 */
 	/*@PutMapping("/{un}")

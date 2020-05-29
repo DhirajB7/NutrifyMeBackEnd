@@ -11,11 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "User")
 public class User {
 
+
     @Id
-    String userId;
-
-
     String username;
+
     String firstname;
     String lastname;
     String email;
@@ -24,14 +23,6 @@ public class User {
     String role;
     double caloriesPerDay;
     boolean userStatus;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId.toLowerCase();
-    }
 
     public String getUsername() {
         return username;
