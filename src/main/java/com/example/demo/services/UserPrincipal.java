@@ -71,4 +71,14 @@ public class UserPrincipal implements UserDetails{
 		return this.user.isUserStatus();
 	}
 
+	public String getHistory(){
+		return user.getHistory();
+	}
+
+	public String  getCal(){
+		return String.valueOf(user.getCaloriesPerDay());
+	}
+
+
+
 }

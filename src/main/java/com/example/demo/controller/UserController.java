@@ -54,6 +54,18 @@ public class UserController {
 		return userRepo.findById(un);
 	}
 
+	@GetMapping("/this/{un}")
+	public String getThisUser(@PathVariable String un) {
+
+		User user = userRepo.findById(un).get();
+
+		String cal = String.valueOf(user.getCaloriesPerDay());
+
+		String history = user.getHistory();
+
+		return cal+" "+history;
+	}
+
 	@DeleteMapping("/{un}")
 	public String deleteOneUser(@PathVariable String un) {
 

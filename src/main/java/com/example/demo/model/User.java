@@ -23,6 +23,7 @@ public class User {
     String role;
     double caloriesPerDay;
     boolean userStatus;
+    String history;
 
     public String getUsername() {
         return username;
@@ -103,5 +104,11 @@ public class User {
         return new ArrayList<>();
     }
 
+    public String getHistory() {
+        return history;
+    }
 
+    public void setHistory(String history) {
+        this.history = history;
+    }
 }
