@@ -74,27 +74,6 @@ public class UserController {
 
 	}
 
-	/**
-	 * NOT USING BETTER METHOED ARE BELOW
-	 * HENCE COMMITING FOR NOW
-	 * @param un
-	 * @param
-	 * @return
-	 */
-	/*@PutMapping("/{un}")
-	public String oneUserUpdate(@PathVariable String un, @RequestBody User newData) {
-
-        User toBeDeleated = userRepo.findAll().stream().filter(a -> a.getUsername().equalsIgnoreCase(un)).findFirst().get();
-
-        userRepo.deleteById(un);
-
-        newData.setUsername(toBeDeleated.getUsername());
-
-        userRepo.save(newData);
-
-        return "USER UPDATED";
-    }*/
-
     @PutMapping("/{un}/status/{data}")
     public String oneUserUpdateStatus(@PathVariable String un, @PathVariable String data) {
 
