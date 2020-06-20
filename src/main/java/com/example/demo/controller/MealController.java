@@ -38,6 +38,8 @@ public class MealController {
 	@PostMapping("/add/{un}")
 	public String postMeal(@RequestBody Meal data,@PathVariable String un) {
 
+		try {
+			
 		boolean flag = mealRepo.findAll().stream().anyMatch(a->a.getFoodName().equalsIgnoreCase(data.getFoodName()));
 		
 		if(!flag) {
@@ -48,6 +50,9 @@ public class MealController {
 		}else{
 			getDataReady(mealRepo.findByFoodName(data.getFoodName()),un);
 			return "MEAL ALREADY IN DB.";
+		}
+		}catch (Exception e) {
+			return "CALAROIES CANNOT BE FETCHED FOR ENTERED FOOD NAME.";
 		}
 
 	}
@@ -143,7 +148,7 @@ public class MealController {
 	@GetMapping("/all/{name}")
 	public List<Meal> getAllMealByOneUSer(@PathVariable String name) {
 
-		return mealRepo.findAll().stream().filter(a->a.getAddedByUserName().equalsIgnoreCase(name)).collect(Collectors.toList());
+		return mealRepo.findAll();
 
 	}
 
